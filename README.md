@@ -82,12 +82,21 @@ These complement [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS), 
 
 ## Installation
 
-### Claude Code (recommended)
+### Claude.ai (upload as skill)
+
+Build the ZIP and upload it:
+
+```bash
+./build-zip.sh
+```
+
+This creates `combat-epistemology.zip` with exactly one `SKILL.md` and 20 supporting files. Upload it via Claude → Settings → Skills.
+
+### Claude Code
 
 **Project-level** — skills available to everyone working on this repo:
 
 ```bash
-# Clone into your project
 git clone https://github.com/yourusername/combat_epistemology.git
 cp -r combat_epistemology/.claude/skills/* your-project/.claude/skills/
 ```
@@ -98,7 +107,7 @@ cp -r combat_epistemology/.claude/skills/* your-project/.claude/skills/
 cp -r combat_epistemology/.claude/skills/* ~/.claude/skills/
 ```
 
-Once installed, skills are auto-discovered by Claude Code. Invoke them directly:
+Once installed, skills are auto-discovered. Invoke them directly:
 
 ```
 /taboo consciousness
@@ -109,7 +118,13 @@ Once installed, skills are auto-discovered by Claude Code. Invoke them directly:
 /hamming my current priorities
 ```
 
-Or let Claude invoke them automatically when it detects relevance in your conversation.
+Or let Claude invoke them automatically when it detects relevance.
+
+### As a Plugin
+
+```bash
+claude plugin add /path/to/combat_epistemology
+```
 
 ### Direct Use (any Claude interface)
 
@@ -118,18 +133,6 @@ Just ask Claude to apply a technique by name:
 > "Use murphyjitsu on my plan to launch by Q3"
 > "Taboo the word 'fair' in this discussion"
 > "Find the double crux between these two positions"
-> "Steelman the opposing view before I respond"
-> "What's the reference class for this estimate?"
-
-The skill files (`.claude/skills/<name>/SKILL.md`) contain complete instructions Claude can follow even without the skill infrastructure.
-
-### As a Plugin
-
-Add combat_epistemology as a [Claude Code plugin](https://code.claude.com/docs/en/plugins) to distribute across teams:
-
-```bash
-claude plugin add /path/to/combat_epistemology
-```
 
 ---
 
@@ -195,7 +198,7 @@ Each skill includes:
    └── reference.md    # Quality criteria, anti-patterns, integration
    ```
 
-2. **Update the catalog:** Add entry to `SKILL.md`
+2. **Update the catalogs:** Add entry to root `SKILL.md` and `CATALOG.md`
 
 4. **SKILL.md frontmatter format:**
    ```yaml

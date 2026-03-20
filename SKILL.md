@@ -1,178 +1,249 @@
 ---
 name: combat-epistemology
-description: Rationalist reasoning techniques operationalized as composable Claude Skills. Decision-theoretic operations mined from CFAR, LessWrong, and the rationalist community.
+description: >
+  Ten rationalist reasoning techniques for structured thinking. Includes taboo
+  (semantic decompression), murphyjitsu (pre-mortem planning), doublecrux (crux
+  identification), goalfactor (goal decomposition), aversionfactor (resistance
+  surfacing), steelman (argument strengthening), referenceclass (base-rate
+  anchoring), hamming (priority confrontation), innerloop (intuition extraction),
+  and noticing (confusion detection). Use when the user asks to apply any of
+  these techniques, or when structured reasoning would help with a decision,
+  disagreement, plan, or estimate.
 ---
 
 # Combat Epistemology
 
-**Rationalist cognitive techniques, operationalized.**
+Ten rationalist cognitive techniques for AI-assisted structured thinking.
 
-This project takes structured thinking strategies developed in the rationalist community (CFAR, LessWrong, etc.) and formats them as composable reasoning operations for AI-assisted thinking. It complements [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS), which provides philosophical operations (negspace, excavate, antithesize), by adding decision-theoretic operations.
+When the user's request matches a technique below, apply that technique's process. When multiple techniques could help, suggest the most relevant one or chain them together.
 
----
+## Technique Selection Guide
 
-## Quick Start
-
-These skills are available as Claude Code slash commands:
-
-```
-/taboo consciousness           # Unpack what "consciousness" actually means
-/murphyjitsu launch plan       # Pre-mortem: "it failed — what went wrong?"
-/doublecrux                    # Find the crux of the current disagreement
-/steelman their argument       # Build the strongest opposing case
-/referenceclass our timeline   # "What's the base rate for projects like this?"
-```
-
-Or just describe what you need:
-- "Taboo the word 'fair' in this discussion"
-- "Run murphyjitsu on my plan to launch by Q3"
-- "What's the reference class for this estimate?"
+| If the user needs to... | Use |
+|--------------------------|-----|
+| Unpack a loaded or contested term | **taboo** |
+| Stress-test a plan before committing | **murphyjitsu** |
+| Find what would change minds in a disagreement | **doublecrux** |
+| Understand why they actually want something | **goalfactor** |
+| Surface why they're stuck or procrastinating | **aversionfactor** |
+| Build the strongest opposing argument | **steelman** |
+| Ground an estimate in actual base rates | **referenceclass** |
+| Audit whether they're working on what matters | **hamming** |
+| Check what their gut actually predicts | **innerloop** |
+| Catch something they're glossing over | **noticing** |
 
 ---
 
-## Core Skills
+## taboo — Semantic Decompression
 
-### Semantic Operations
+*"If you couldn't use that word, what would you say?"*
 
-- **[taboo](.claude/skills/taboo/SKILL.md)** — *"if you couldn't use that word, what would you say?"*
-  Forces semantic decompression by banning a term and requiring unpacked definitions. Exposes when disagreements are verbal rather than substantive.
-  `/taboo [term] [context]`
+Ban a contested term and force unpacking what it actually means.
 
-### Planning Operations
+**Process:**
+1. Identify the suspect term — abstract, contested, load-bearing, or emotionally charged
+2. Ban the word — it cannot appear in subsequent discussion
+3. Request unpacked restatement — "Restate your claim without using [term]"
+4. Identify components — break down descriptive claims, normative claims, boundary claims, causal claims
+5. Compare unpacked versions — do they actually conflict, or was the disagreement verbal?
+6. Locate residual disagreement — what genuine dispute remains after semantic clearing?
 
-- **[murphyjitsu](.claude/skills/murphyjitsu/SKILL.md)** — *"the plan failed. what went wrong?"*
-  Pre-mortem planning via temporal inversion. Asks "what went wrong?" instead of "what could go wrong?" to bypass optimism bias and surface failure modes.
-  `/murphyjitsu [plan or commitment]`
+For worked examples, see [taboo-examples.md](taboo-examples.md). For quality criteria and anti-patterns, see [taboo-reference.md](taboo-reference.md).
 
-- **[referenceclass](.claude/skills/referenceclass/SKILL.md)** — *"what's the base rate for things like this?"*
-  Outside-view anchoring. Finds the relevant reference class, looks up actual outcomes, and uses that as baseline before adjusting for specifics.
-  `/referenceclass [prediction or estimate]`
+---
 
-### Disagreement Operations
+## murphyjitsu — Pre-Mortem Planning
 
-- **[doublecrux](.claude/skills/doublecrux/SKILL.md)** — *"what would it take to change your mind?"*
-  Finds the load-bearing belief where, if one party learned they were wrong, they'd change their conclusion. Transforms arguments into investigations.
-  `/doublecrux [position A] vs [position B]`
+*"The plan failed. What went wrong?"*
 
-- **[steelman](.claude/skills/steelman/SKILL.md)** — *"what's the strongest version of this argument?"*
-  Constructs the best possible version of an opposing position. Ensures you're engaging with the real argument, not a caricature.
-  `/steelman [position to strengthen]`
+Imagine the plan has already failed and ask "what went wrong?" to bypass optimism bias.
 
-### Motivation Operations
+**Process:**
+1. State the plan clearly — specific scope, timeline, success criteria
+2. Invoke temporal inversion — "It's [time horizon] from now. Total failure. What happened?"
+3. Generate failure narratives — let the inner simulator tell 5-10 failure stories (what, when, why not caught)
+4. Run the surprise-o-meter — for each failure: "Would I be surprised?" Low surprise = real risk
+5. Generate mitigations — for each priority risk: "What would have prevented/detected this?" Be specific
+6. Identify residual risks — acknowledge what can't be mitigated
+7. Update the plan — integrate mitigations, add tripwires and checkpoints
 
-- **[goalfactor](.claude/skills/goalfactor/SKILL.md)** — *"why do you actually want this?"*
-  Decomposes actions into underlying goals until hitting terminal values. Reveals when stated goals are proxies and finds alternative paths to the real thing.
-  `/goalfactor [action or desire]`
+For worked examples, see [murphyjitsu-examples.md](murphyjitsu-examples.md). For quality criteria and anti-patterns, see [murphyjitsu-reference.md](murphyjitsu-reference.md).
 
-- **[aversionfactor](.claude/skills/aversionfactor/SKILL.md)** — *"what's the real objection?"*
-  Surfaces hidden resistance beneath stated objections. Uses the "magic wand test" to peel back layers until the root aversion is visible.
-  `/aversionfactor [stated objection] about [desired action]`
+---
 
-### Priority Operations
+## doublecrux — Crux Identification
 
-- **[hamming](.claude/skills/hamming/SKILL.md)** — *"what's the most important problem, and why aren't you working on it?"*
-  Surfaces the gap between where you're spending effort and where effort would actually matter. Forces honesty about avoidance.
-  `/hamming [domain]`
+*"What would it take to change your mind?"*
 
-### Intuition Operations
+Find the load-bearing belief that, if flipped, would change both parties' conclusions.
 
-- **[innerloop](.claude/skills/innerloop/SKILL.md)** — *"what does your inner simulator actually predict?"*
-  Queries gut-level predictions. Catches when verbal reasoning and felt expectations diverge — the gap is often where truth hides.
-  `/innerloop [scenario or plan]`
+**Process:**
+1. Clarify the disagreement — state both positions clearly (use taboo if needed)
+2. Generate cruxes for side A — "List beliefs that, if false, would change your conclusion" (3-7 cruxes)
+3. Generate cruxes for side B — same process, verify each is genuinely load-bearing
+4. Identify double cruxes — find direct overlaps, inverse pairs, or shared upstream beliefs
+5. Verify — "If we discovered [crux] was [true/false], would you really change your conclusion?"
+6. Design investigation — what evidence would resolve the double crux?
+7. Investigate or acknowledge limits — pursue the evidence or note the crux is currently unresolvable
 
-- **[noticing](.claude/skills/noticing/SKILL.md)** — *"what am I glossing over right now?"*
-  Meta-skill for catching confusion, discomfort, or inconsistency before rationalization kicks in. The thing you're skipping is often where the error lives.
-  `/noticing [situation]`
+For worked examples, see [doublecrux-examples.md](doublecrux-examples.md). For quality criteria and anti-patterns, see [doublecrux-reference.md](doublecrux-reference.md).
+
+---
+
+## goalfactor — Goal Decomposition
+
+*"Why do you actually want this?"*
+
+Decompose actions into underlying goals until hitting terminal values.
+
+**Process:**
+1. State the action or desire — be specific ("get promoted to VP by 2025" not "be successful")
+2. Ask "why do you want this?" — generate all immediate goals this action serves (not just one)
+3. Recurse on each goal — ask "why?" again until hitting terminal values or loops
+4. Identify terminals — connection, autonomy, mastery, meaning, security, pleasure, status
+5. Map the goal tree — visualize the hierarchy from action to terminals
+6. Generate alternative paths — for each terminal, brainstorm other ways to achieve it
+7. Assess efficiency — compare paths: best ratio of terminal satisfaction to cost?
+
+For worked examples, see [goalfactor-examples.md](goalfactor-examples.md). For quality criteria and anti-patterns, see [goalfactor-reference.md](goalfactor-reference.md).
+
+---
+
+## aversionfactor — Resistance Surfacing
+
+*"What's the real objection?"*
+
+Surface hidden resistance beneath stated objections using the magic wand test.
+
+**Process:**
+1. Identify the pattern — what action isn't happening despite stated intention?
+2. Apply magic wand test — "If [stated objection] were completely solved, would you do it?"
+3. Surface next objection — "So if that weren't the issue, what would still make this hard?"
+4. Iterate — repeat magic wand until hitting the real resistance
+5. Classify the root aversion — fear-based, identity-based, effort-based, social, or values-based
+6. Validate — acknowledge the aversion exists for a reason (validation ≠ agreement)
+7. Explore resolution paths — address directly, modify action, accept and act through, or recognize you don't actually want the thing
+
+For worked examples, see [aversionfactor-examples.md](aversionfactor-examples.md). For quality criteria and anti-patterns, see [aversionfactor-reference.md](aversionfactor-reference.md).
+
+---
+
+## steelman — Argument Strengthening
+
+*"What's the strongest version of this argument?"*
+
+Construct the best possible version of a position you disagree with.
+
+**Process:**
+1. State the position you're opposing — notice if you're already framing it uncharitably
+2. Assume intelligent proponents — "What would a smart, informed person see in this?"
+3. Find strongest evidence — actively search for data/arguments supporting the view
+4. Grant plausible premises — what assumptions make the argument work? Are any reasonable?
+5. Locate genuine insight — what real phenomenon or valid concern underlies this position?
+6. Reformulate — rewrite as the strongest version proponents would endorse
+7. Test against your objections — engage with this strong version; remaining objections are real cruxes
+
+**Proponent test:** Could you pass an ideological Turing test? Could you argue this position convincingly enough that a proponent couldn't tell you don't believe it?
+
+For worked examples, see [steelman-examples.md](steelman-examples.md). For quality criteria and anti-patterns, see [steelman-reference.md](steelman-reference.md).
+
+---
+
+## referenceclass — Base-Rate Anchoring
+
+*"What's the base rate for things like this?"*
+
+Ground predictions in actual frequencies before adjusting for specifics.
+
+**Process:**
+1. State the prediction clearly — make it specific and measurable
+2. Generate candidate reference classes — narrow, medium, and broad categories
+3. Select reference class — based on sample size, similarity, and data availability
+4. Find the base rate — what actually happens to things in this class? Get the distribution, not just the mean
+5. Identify adjustment factors — what makes your case different? List factors in both directions
+6. Compute adjusted estimate — start from base rate, adjust conservatively (no more than 25%)
+7. Assign confidence interval — wider than feels comfortable; check calibration
+
+For worked examples, see [referenceclass-examples.md](referenceclass-examples.md). For quality criteria and anti-patterns, see [referenceclass-reference.md](referenceclass-reference.md).
+
+---
+
+## hamming — Priority Confrontation
+
+*"What's the most important problem, and why aren't you working on it?"*
+
+Surface the gap between effort allocation and actual importance.
+
+Richard Hamming's three questions:
+1. "What are the most important problems in your field?"
+2. "What are you working on?"
+3. "If what you're working on isn't important, why are you working on it?"
+
+**Process:**
+1. Define the domain — bound the scope so "important" has clear meaning
+2. Identify important problems — assess impact, tractability, and neglectedness for each
+3. Categorize current work — high-leverage, supporting, maintenance, low-leverage, avoidance
+4. Compare and find gaps — where does effort diverge from importance?
+5. Diagnose reasons — fear, comfort, inertia, social pressure, false constraints, or legitimate reasons
+6. Decide — close the gap, justify it explicitly, or investigate feasibility
+
+For worked examples, see [hamming-examples.md](hamming-examples.md). For quality criteria and anti-patterns, see [hamming-reference.md](hamming-reference.md).
+
+---
+
+## innerloop — Intuition Extraction
+
+*"What does your inner simulator actually predict?"*
+
+Query gut-level predictions and take discrepancies with verbal reasoning seriously.
+
+**Process:**
+1. Identify what you're predicting — state the scenario or plan
+2. Note stated expectation — what do you consciously claim? Write it down first
+3. Quiet verbal reasoning — stop arguing, analyzing, justifying
+4. Simulate concretely — imagine the scenario playing out without steering it
+5. Query surprise — "If my stated expectation happened, would I be surprised?" Try the opposite too
+6. Identify discrepancy — compare stated prediction vs felt prediction
+7. Extract hidden knowledge — "What does my simulator know that I'm not acknowledging?"
+
+For worked examples, see [innerloop-examples.md](innerloop-examples.md). For quality criteria and anti-patterns, see [innerloop-reference.md](innerloop-reference.md).
+
+---
+
+## noticing — Confusion Detection
+
+*"What am I glossing over right now?"*
+
+Catch confusion, discomfort, or inconsistency before rationalization smooths it over.
+
+**Signals to watch for:**
+- Epistemic: confusion, inconsistency, surprise, too-convenient explanations, motivated reasoning
+- Emotional: discomfort, flinch, suspicious relief, anger masking fear
+- Social: politeness override, consensus pull, conflict avoidance
+- Process: rushing, changing subject, false clarity, explanation cascade
+
+**Process:**
+1. Build meta-attention — part of attention watches for signals in the background
+2. Catch the flicker — slight "huh," physical tension, desire to move on, relief at an explanation
+3. Name what you noticed — "I noticed confusion about X" — naming prevents smoothing-over
+4. Resist the first explanation — hold it lightly; ask if it's real or a cover story
+5. Investigate or flag — dig in now, note for later, or consciously release
+
+For worked examples, see [noticing-examples.md](noticing-examples.md). For quality criteria and anti-patterns, see [noticing-reference.md](noticing-reference.md).
 
 ---
 
 ## Composability
 
-Skills are designed to chain. Common sequences:
+These techniques chain together. Common sequences:
 
-```
-taboo → doublecrux          # Clear semantic fog, then find the real crux
-goalfactor → aversionfactor  # What do you want? → What's blocking you?
-referenceclass → innerloop   # Outside view → Does your gut agree?
-noticing → excavate          # Catch the flicker → Dig into assumptions
-steelman → doublecrux        # Best opposing case → Find the crux
-murphyjitsu → referenceclass # Failure modes → What's the base rate?
-```
+- **taboo → doublecrux** — clear semantic fog, then find the real crux
+- **goalfactor → aversionfactor** — what do you want? → what's blocking you?
+- **referenceclass → innerloop** — outside view → does your gut agree?
+- **steelman → doublecrux** — best opposing case → find the crux
+- **murphyjitsu → referenceclass** — failure modes → what's the base rate?
+- **noticing → any technique** — catch the signal, then apply the right tool
 
-### Upstream/Downstream Map
+## Attribution
 
-```
-                    noticing
-                       ↓
-              taboo ← excavate
-             ↙    ↘
-    steelman    doublecrux ← goalfactor
-         ↘      ↓              ↓
-          referenceclass   aversionfactor
-              ↓                ↓
-          innerloop      murphyjitsu
-```
-
----
-
-## File Organization
-
-Each skill lives in `.claude/skills/<name>/` with three files:
-
-| File | Purpose | Loaded when |
-|------|---------|-------------|
-| `SKILL.md` | Core instructions, process steps | Skill is invoked |
-| `examples.md` | Worked examples (2-3 per skill) | Claude needs examples |
-| `reference.md` | Quality criteria, anti-patterns, integration | Claude needs reference |
-
----
-
-## Philosophy
-
-### Composability
-Skills are discrete operations that can be chained. taboo clears semantic fog before doublecrux; goalfactor reveals what you want before aversionfactor reveals what's blocking you; referenceclass provides outside view before innerloop checks gut reaction.
-
-### Explicitness
-Each skill has a clear signature, process, and output format. No hidden moves.
-
-### Epistemic hygiene
-These operations make thinking visible and checkable. They surface assumptions, identify cruxes, and distinguish empirical claims from value judgments.
-
-### Attribution clarity
-When using these skills in analysis:
-- **You** are requesting the analysis
-- **The author** of any content being analyzed is a separate entity
-- **Claude** is performing the operations
-
----
-
-## Attribution & Lineage
-
-The thinking techniques described here were invented by others. This project provides original descriptions, examples, and AI-adapted processes — not reproductions of source materials.
-
-We owe the ideas to:
-- **CFAR** (Center for Applied Rationality) — murphyjitsu, goal factoring, aversion factoring, double crux, inner simulator
-- **Eliezer Yudkowsky / LessWrong** — taboo your words, noticing confusion
-- **Alicorn / LessWrong** — ugh fields
-- **Kahneman & Tversky; Tetlock** — reference class forecasting, outside view
-- **Gary Klein** — pre-mortem method
-- **Richard Hamming** — the Hamming questions
-- **Bryan Caplan** — ideological Turing test
-- **Philosophy/debate tradition** — steelmanning, principle of charity
-
----
-
-## Future Directions
-
-Potential additions from the rationalist corpus:
-- **fermi** — break down an estimate into component factors
-- **trigger-action** — if X then Y, commitment mechanisms
-- **focusing** — Gendlin's felt-sense technique adapted for decisions
-- **ideological-turing** — can you pass as a believer?
-- **crockers-rules** — precommitment to accept blunt feedback
-
----
-
-## License
-
-CC BY 4.0 — use freely with attribution.
+The thinking techniques described here were invented by others. This project provides original descriptions, examples, and processes — not reproductions of source materials. We owe the ideas to CFAR (murphyjitsu, goal factoring, aversion factoring, double crux, inner simulator), Eliezer Yudkowsky (taboo your words, noticing confusion), Daniel Kahneman & Amos Tversky (planning fallacy, base-rate neglect), Philip Tetlock (reference class forecasting), Gary Klein (pre-mortem method), Richard Hamming (the Hamming questions), Bryan Caplan (ideological Turing test), and the philosophy/debate tradition (steelmanning, principle of charity).

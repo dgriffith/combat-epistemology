@@ -9,9 +9,11 @@ Combat Epistemology: rationalist cognitive techniques (CFAR, LessWrong, rational
 ```
 combat_epistemology/
 ├── CLAUDE.md                          # This file
-├── SKILL.md                           # Master catalog
+├── SKILL.md                           # Unified skill for Claude.ai upload
+├── CATALOG.md                         # Master catalog with full docs
 ├── README.md                          # Public documentation
-├── .claude/skills/                    # Claude Code skill files (modern format)
+├── build-zip.sh                       # Creates Claude.ai-compatible ZIP
+├── .claude/skills/                    # Claude Code skill files (per-technique)
 │   ├── taboo/SKILL.md                 # + examples.md, reference.md
 │   ├── murphyjitsu/SKILL.md
 │   ├── doublecrux/SKILL.md
@@ -22,7 +24,6 @@ combat_epistemology/
 │   ├── hamming/SKILL.md
 │   ├── innerloop/SKILL.md
 │   └── noticing/SKILL.md
-└── (original standalone dirs removed — single source of truth)
 ```
 
 ## Skill Layout
@@ -43,7 +44,7 @@ Each skill uses progressive disclosure:
 
 1. Create `.claude/skills/<name>/SKILL.md` with YAML frontmatter (name, description in third person with trigger words, argument-hint)
 2. Create `examples.md` and `reference.md` in the same directory
-3. Add entry to `SKILL.md` master catalog
+3. Add entry to `CATALOG.md` and to root `SKILL.md`
 5. Include at least 2 worked examples
 6. Document integration points with existing skills
 
