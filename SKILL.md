@@ -11,65 +11,119 @@ This project takes structured thinking strategies developed in the rationalist c
 
 ---
 
+## Quick Start
+
+These skills are available as Claude Code slash commands:
+
+```
+/taboo consciousness           # Unpack what "consciousness" actually means
+/murphyjitsu launch plan       # Pre-mortem: "it failed — what went wrong?"
+/doublecrux                    # Find the crux of the current disagreement
+/steelman their argument       # Build the strongest opposing case
+/referenceclass our timeline   # "What's the base rate for projects like this?"
+```
+
+Or just describe what you need:
+- "Taboo the word 'fair' in this discussion"
+- "Run murphyjitsu on my plan to launch by Q3"
+- "What's the reference class for this estimate?"
+
+---
+
 ## Core Skills
 
 ### Semantic Operations
 
-- **[taboo](taboo/TABOO.md)** — *"if you couldn't use that word, what would you say?"*
+- **[taboo](.claude/skills/taboo/SKILL.md)** — *"if you couldn't use that word, what would you say?"*
   Forces semantic decompression by banning a term and requiring unpacked definitions. Exposes when disagreements are verbal rather than substantive.
+  `/taboo [term] [context]`
 
 ### Planning Operations
 
-- **[murphyjitsu](murphyjitsu/MURPHYJITSU.md)** — *"the plan failed. what went wrong?"*
+- **[murphyjitsu](.claude/skills/murphyjitsu/SKILL.md)** — *"the plan failed. what went wrong?"*
   Pre-mortem planning via temporal inversion. Asks "what went wrong?" instead of "what could go wrong?" to bypass optimism bias and surface failure modes.
+  `/murphyjitsu [plan or commitment]`
 
-- **[referenceclass](referenceclass/REFERENCECLASS.md)** — *"what's the base rate for things like this?"*
+- **[referenceclass](.claude/skills/referenceclass/SKILL.md)** — *"what's the base rate for things like this?"*
   Outside-view anchoring. Finds the relevant reference class, looks up actual outcomes, and uses that as baseline before adjusting for specifics.
+  `/referenceclass [prediction or estimate]`
 
 ### Disagreement Operations
 
-- **[doublecrux](doublecrux/DOUBLECRUX.md)** — *"what would it take to change your mind?"*
+- **[doublecrux](.claude/skills/doublecrux/SKILL.md)** — *"what would it take to change your mind?"*
   Finds the load-bearing belief where, if one party learned they were wrong, they'd change their conclusion. Transforms arguments into investigations.
+  `/doublecrux [position A] vs [position B]`
 
-- **[steelman](steelman/STEELMAN.md)** — *"what's the strongest version of this argument?"*
+- **[steelman](.claude/skills/steelman/SKILL.md)** — *"what's the strongest version of this argument?"*
   Constructs the best possible version of an opposing position. Ensures you're engaging with the real argument, not a caricature.
+  `/steelman [position to strengthen]`
 
 ### Motivation Operations
 
-- **[goalfactor](goalfactor/GOALFACTOR.md)** — *"why do you actually want this?"*
+- **[goalfactor](.claude/skills/goalfactor/SKILL.md)** — *"why do you actually want this?"*
   Decomposes actions into underlying goals until hitting terminal values. Reveals when stated goals are proxies and finds alternative paths to the real thing.
+  `/goalfactor [action or desire]`
 
-- **[aversionfactor](aversionfactor/AVERSIONFACTOR.md)** — *"what's the real objection?"*
+- **[aversionfactor](.claude/skills/aversionfactor/SKILL.md)** — *"what's the real objection?"*
   Surfaces hidden resistance beneath stated objections. Uses the "magic wand test" to peel back layers until the root aversion is visible.
+  `/aversionfactor [stated objection] about [desired action]`
 
 ### Priority Operations
 
-- **[hamming](hamming/HAMMING.md)** — *"what's the most important problem, and why aren't you working on it?"*
+- **[hamming](.claude/skills/hamming/SKILL.md)** — *"what's the most important problem, and why aren't you working on it?"*
   Surfaces the gap between where you're spending effort and where effort would actually matter. Forces honesty about avoidance.
+  `/hamming [domain]`
 
 ### Intuition Operations
 
-- **[innerloop](innerloop/INNERLOOP.md)** — *"what does your inner simulator actually predict?"*
+- **[innerloop](.claude/skills/innerloop/SKILL.md)** — *"what does your inner simulator actually predict?"*
   Queries gut-level predictions. Catches when verbal reasoning and felt expectations diverge — the gap is often where truth hides.
+  `/innerloop [scenario or plan]`
 
-- **[noticing](noticing/NOTICING.md)** — *"what am I glossing over right now?"*
+- **[noticing](.claude/skills/noticing/SKILL.md)** — *"what am I glossing over right now?"*
   Meta-skill for catching confusion, discomfort, or inconsistency before rationalization kicks in. The thing you're skipping is often where the error lives.
+  `/noticing [situation]`
 
 ---
 
-## Usage
+## Composability
 
-Each skill directory contains a procedural definition file with:
-- tl;dr and signature
-- step-by-step process
-- quality criteria
-- examples
-- anti-patterns to avoid
+Skills are designed to chain. Common sequences:
 
-These skills can be:
-- Used directly by asking Claude to apply them
-- Uploaded as Claude Skills via Settings > Capabilities
-- Composed together (e.g., taboo → doublecrux, goalfactor → aversionfactor)
+```
+taboo → doublecrux          # Clear semantic fog, then find the real crux
+goalfactor → aversionfactor  # What do you want? → What's blocking you?
+referenceclass → innerloop   # Outside view → Does your gut agree?
+noticing → excavate          # Catch the flicker → Dig into assumptions
+steelman → doublecrux        # Best opposing case → Find the crux
+murphyjitsu → referenceclass # Failure modes → What's the base rate?
+```
+
+### Upstream/Downstream Map
+
+```
+                    noticing
+                       ↓
+              taboo ← excavate
+             ↙    ↘
+    steelman    doublecrux ← goalfactor
+         ↘      ↓              ↓
+          referenceclass   aversionfactor
+              ↓                ↓
+          innerloop      murphyjitsu
+```
+
+---
+
+## File Organization
+
+Each skill lives in `.claude/skills/<name>/` with three files:
+
+| File | Purpose | Loaded when |
+|------|---------|-------------|
+| `SKILL.md` | Core instructions, process steps | Skill is invoked |
+| `examples.md` | Worked examples (2-3 per skill) | Claude needs examples |
+| `reference.md` | Quality criteria, anti-patterns, integration | Claude needs reference |
 
 ---
 
@@ -90,51 +144,21 @@ When using these skills in analysis:
 - **The author** of any content being analyzed is a separate entity
 - **Claude** is performing the operations
 
-This separation matters for intellectual honesty.
-
 ---
 
-## Repository Structure
+## Attribution & Lineage
 
-```
-combat_epistemology/
-├── SKILL.md                    # this file
-├── CLAUDE.md                   # guidance for Claude Code
-├── README.md                   # public-facing documentation
-├── taboo/
-│   └── TABOO.md
-├── murphyjitsu/
-│   └── MURPHYJITSU.md
-├── doublecrux/
-│   └── DOUBLECRUX.md
-├── goalfactor/
-│   └── GOALFACTOR.md
-├── aversionfactor/
-│   └── AVERSIONFACTOR.md
-├── steelman/
-│   └── STEELMAN.md
-├── referenceclass/
-│   └── REFERENCECLASS.md
-├── hamming/
-│   └── HAMMING.md
-├── innerloop/
-│   └── INNERLOOP.md
-└── noticing/
-    └── NOTICING.md
-```
+The thinking techniques described here were invented by others. This project provides original descriptions, examples, and AI-adapted processes — not reproductions of source materials.
 
----
-
-## Lineage
-
-These techniques were developed primarily at:
+We owe the ideas to:
 - **CFAR** (Center for Applied Rationality) — murphyjitsu, goal factoring, aversion factoring, double crux, inner simulator
-- **LessWrong** — taboo your words, noticing confusion, ugh fields
-- **Superforecasting** (Tetlock) — reference class forecasting, outside view
+- **Eliezer Yudkowsky / LessWrong** — taboo your words, noticing confusion
+- **Alicorn / LessWrong** — ugh fields
+- **Kahneman & Tversky; Tetlock** — reference class forecasting, outside view
+- **Gary Klein** — pre-mortem method
 - **Richard Hamming** — the Hamming questions
-- **Philosophy/debate** — steelmanning, principle of charity
-
-They've been operationalized here for AI-assisted reasoning, following the format established by [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS).
+- **Bryan Caplan** — ideological Turing test
+- **Philosophy/debate tradition** — steelmanning, principle of charity
 
 ---
 

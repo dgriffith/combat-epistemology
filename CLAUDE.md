@@ -1,56 +1,61 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Project Overview
 
-Combat Epistemology is a collection of rationalist cognitive techniques operationalized as composable Claude Skills. It takes structured thinking strategies from CFAR (Center for Applied Rationality), LessWrong, and the broader rationalist community and formats them for AI-assisted reasoning.
-
-This project complements [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS), which provides philosophical operations (negspace, excavate, antithesize). Combat Epistemology adds decision-theoretic operations.
+Combat Epistemology: rationalist cognitive techniques (CFAR, LessWrong, rationalist canon) operationalized as composable Claude Skills. Complements [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS) (philosophical operations) with decision-theoretic operations.
 
 ## Repository Structure
 
 ```
 combat_epistemology/
-├── SKILL.md              # Master catalog of all skills
-├── taboo/TABOO.md        # Semantic decompression via word-banning
-├── murphyjitsu/          # Pre-mortem planning via temporal inversion
-├── doublecrux/           # Find load-bearing beliefs in disagreements
-├── goalfactor/           # Decompose actions into underlying goals
-└── aversionfactor/       # Surface hidden objections
+├── CLAUDE.md                          # This file
+├── SKILL.md                           # Master catalog
+├── README.md                          # Public documentation
+├── .claude/skills/                    # Claude Code skill files (modern format)
+│   ├── taboo/SKILL.md                 # + examples.md, reference.md
+│   ├── murphyjitsu/SKILL.md
+│   ├── doublecrux/SKILL.md
+│   ├── goalfactor/SKILL.md
+│   ├── aversionfactor/SKILL.md
+│   ├── steelman/SKILL.md
+│   ├── referenceclass/SKILL.md
+│   ├── hamming/SKILL.md
+│   ├── innerloop/SKILL.md
+│   └── noticing/SKILL.md
+└── (original standalone dirs removed — single source of truth)
 ```
+
+## Skill Layout
+
+All skills live in `.claude/skills/<name>/` with three files:
+- **`SKILL.md`** — Claude Code skill format. Auto-discovered, invokable via `/skillname`, supports `$ARGUMENTS`.
+- **`examples.md`** — Worked examples, loaded on demand.
+- **`reference.md`** — Quality criteria, anti-patterns, integration points, loaded on demand.
 
 ## Skill File Format
 
-Each skill follows a consistent structure:
-- **YAML frontmatter**: name, description
-- **tl;dr**: one-line summary and core question
-- **when to use / don't use**: applicability guidance
-- **signature**: input/output specification
-- **process**: step-by-step procedure
-- **quality criteria**: checkboxes for verification
-- **anti-patterns**: common mistakes
-- **integration**: how it connects with other operations
-- **examples**: 2-3 worked examples
-- **meta-note**: conceptual framing and lineage
+Each skill uses progressive disclosure:
+- **SKILL.md**: YAML frontmatter (name, description, argument-hint) + tl;dr, when to use, mechanism, signature, process steps, links to supporting files
+- **examples.md**: 2-3 worked examples
+- **reference.md**: Quality criteria, anti-patterns, integration points, meta-note
 
 ## Adding New Skills
 
-When adding a new skill:
-1. Create a directory with the lowercase skill name
-2. Create `SKILLNAME.md` following the format above
+1. Create `.claude/skills/<name>/SKILL.md` with YAML frontmatter (name, description in third person with trigger words, argument-hint)
+2. Create `examples.md` and `reference.md` in the same directory
 3. Add entry to `SKILL.md` master catalog
-4. Include at least 2 worked examples
-5. Document integration points with existing skills
+5. Include at least 2 worked examples
+6. Document integration points with existing skills
 
-## Skill Naming Conventions
+## Naming Conventions
 
-- Directory names: lowercase, no spaces (e.g., `doublecrux`)
-- File names: UPPERCASE.md (e.g., `DOUBLECRUX.md`)
+- Skill directory names: lowercase, hyphens ok (e.g., `doublecrux`, `referenceclass`)
+- Main skill file: always `SKILL.md`
 - In prose: lowercase (e.g., "use doublecrux to...")
 
 ## Key Design Principles
 
-- **Composability**: Skills can chain together (taboo → doublecrux)
+- **Composability**: Skills chain together (taboo → doublecrux, goalfactor → aversionfactor)
 - **Explicitness**: Clear signatures and processes, no hidden moves
 - **Epistemic hygiene**: Surface assumptions, identify cruxes, distinguish claims from values
+- **Progressive disclosure**: Core instructions load first; examples and reference load on demand

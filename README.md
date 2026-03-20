@@ -2,7 +2,7 @@
 
 **Rationalist cognitive techniques, operationalized for AI.**
 
-The rationalist community spent two decades developing structured thinking tools — then mostly declined to turn them into AI prompts. This project mines that corpus and formats the techniques as composable [Claude Skills](https://www.anthropic.com/claude-code).
+The rationalist community spent two decades developing structured thinking tools — then mostly declined to turn them into AI prompts. This project mines that corpus and formats the techniques as composable [Claude Skills](https://code.claude.com/docs/en/skills).
 
 > "The street finds its own uses for things." — William Gibson
 
@@ -14,16 +14,16 @@ Ten decision-theoretic operations extracted from CFAR, LessWrong, and the ration
 
 | Skill | Operation | Core Question |
 |-------|-----------|---------------|
-| **[taboo](taboo/TABOO.md)** | Semantic decompression | "If you couldn't use that word, what would you say?" |
-| **[murphyjitsu](murphyjitsu/MURPHYJITSU.md)** | Pre-mortem planning | "The plan failed. What went wrong?" |
-| **[doublecrux](doublecrux/DOUBLECRUX.md)** | Crux identification | "What would it take to change your mind?" |
-| **[goalfactor](goalfactor/GOALFACTOR.md)** | Goal decomposition | "Why do you actually want this?" |
-| **[aversionfactor](aversionfactor/AVERSIONFACTOR.md)** | Resistance surfacing | "What's the real objection?" |
-| **[steelman](steelman/STEELMAN.md)** | Argument strengthening | "What's the strongest version of this position?" |
-| **[referenceclass](referenceclass/REFERENCECLASS.md)** | Outside-view anchoring | "What's the base rate for things like this?" |
-| **[hamming](hamming/HAMMING.md)** | Priority confrontation | "What's the most important problem, and why aren't you working on it?" |
-| **[innerloop](innerloop/INNERLOOP.md)** | Intuition extraction | "What does your inner simulator actually predict?" |
-| **[noticing](noticing/NOTICING.md)** | Confusion detection | "What am I glossing over right now?" |
+| **[taboo](.claude/skills/taboo/SKILL.md)** | Semantic decompression | "If you couldn't use that word, what would you say?" |
+| **[murphyjitsu](.claude/skills/murphyjitsu/SKILL.md)** | Pre-mortem planning | "The plan failed. What went wrong?" |
+| **[doublecrux](.claude/skills/doublecrux/SKILL.md)** | Crux identification | "What would it take to change your mind?" |
+| **[goalfactor](.claude/skills/goalfactor/SKILL.md)** | Goal decomposition | "Why do you actually want this?" |
+| **[aversionfactor](.claude/skills/aversionfactor/SKILL.md)** | Resistance surfacing | "What's the real objection?" |
+| **[steelman](.claude/skills/steelman/SKILL.md)** | Argument strengthening | "What's the strongest version of this position?" |
+| **[referenceclass](.claude/skills/referenceclass/SKILL.md)** | Outside-view anchoring | "What's the base rate for things like this?" |
+| **[hamming](.claude/skills/hamming/SKILL.md)** | Priority confrontation | "What's the most important problem, and why aren't you working on it?" |
+| **[innerloop](.claude/skills/innerloop/SKILL.md)** | Intuition extraction | "What does your inner simulator actually predict?" |
+| **[noticing](.claude/skills/noticing/SKILL.md)** | Confusion detection | "What am I glossing over right now?" |
 
 These complement [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS), which provides philosophical operations (negspace, excavate, antithesize). Combat Epistemology adds the decision-theoretic layer.
 
@@ -82,22 +82,94 @@ These complement [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS), 
 
 ## Installation
 
-### As Claude Skills (Claude Pro)
-1. Download this repo as ZIP
-2. Go to Claude → Settings → Capabilities → Skills
-3. Upload the ZIP
+### Claude Code (recommended)
 
-### Direct Use
-Just ask Claude to apply a technique:
+**Project-level** — skills available to everyone working on this repo:
+
+```bash
+# Clone into your project
+git clone https://github.com/yourusername/combat_epistemology.git
+cp -r combat_epistemology/.claude/skills/* your-project/.claude/skills/
+```
+
+**Personal** — skills available across all your projects:
+
+```bash
+cp -r combat_epistemology/.claude/skills/* ~/.claude/skills/
+```
+
+Once installed, skills are auto-discovered by Claude Code. Invoke them directly:
+
+```
+/taboo consciousness
+/murphyjitsu my Q3 launch plan
+/doublecrux "we should rewrite" vs "we should iterate"
+/steelman the opposing argument
+/referenceclass our hiring timeline
+/hamming my current priorities
+```
+
+Or let Claude invoke them automatically when it detects relevance in your conversation.
+
+### Direct Use (any Claude interface)
+
+Just ask Claude to apply a technique by name:
+
 > "Use murphyjitsu on my plan to launch by Q3"
 > "Taboo the word 'fair' in this discussion"
 > "Find the double crux between these two positions"
 > "Steelman the opposing view before I respond"
 > "What's the reference class for this estimate?"
 
+The skill files (`.claude/skills/<name>/SKILL.md`) contain complete instructions Claude can follow even without the skill infrastructure.
+
+### As a Plugin
+
+Add combat_epistemology as a [Claude Code plugin](https://code.claude.com/docs/en/plugins) to distribute across teams:
+
+```bash
+claude plugin add /path/to/combat_epistemology
+```
+
+---
+
+## Composability
+
+Skills are designed to chain together. Common sequences:
+
+```
+taboo → doublecrux          # Clear semantic fog, then find the real crux
+goalfactor → aversionfactor  # What do you want? → What's blocking you?
+referenceclass → innerloop   # Outside view → Does your gut agree?
+noticing → excavate          # Catch the flicker → Dig into assumptions
+steelman → doublecrux        # Best opposing case → Find the crux
+murphyjitsu → referenceclass # Failure modes → What's the base rate?
+```
+
+### Upstream/Downstream Map
+
+```
+                    noticing
+                       ↓
+              taboo ← excavate
+             ↙    ↘
+    steelman    doublecrux ← goalfactor
+         ↘      ↓              ↓
+          referenceclass   aversionfactor
+              ↓                ↓
+          innerloop      murphyjitsu
+```
+
 ---
 
 ## Skill Format
+
+Each skill lives in `.claude/skills/<name>/` with three files using progressive disclosure:
+
+### Supporting Files
+Each skill directory also contains `examples.md` (worked examples) and `reference.md` (quality criteria, anti-patterns, integration points) that Claude loads on demand.
+
+### Skill File Structure
 
 Each skill includes:
 - **tl;dr** — one-line summary
@@ -111,18 +183,64 @@ Each skill includes:
 
 ---
 
-## Lineage
+## Contributing
 
-These techniques were developed at:
-- **[CFAR](https://rationality.org/)** (Center for Applied Rationality) — murphyjitsu, goal factoring, aversion factoring, double crux, inner simulator
-- **[LessWrong](https://lesswrong.com/)** — taboo your words, noticing confusion, ugh fields
-- **Superforecasting** (Tetlock) — reference class forecasting, outside view
-- **Richard Hamming** — the Hamming questions
-- **Philosophy/debate** — steelmanning, principle of charity
+### Adding a New Skill
 
-They were never operationalized as AI tools by their creators, for reasons ranging from "AI opposition" to "mood affiliation" to "deeply concerned about this stuff" (pick your Russell conjugation).
+1. **Create the skill directory:**
+   ```
+   .claude/skills/yourskill/
+   ├── SKILL.md        # YAML frontmatter + core instructions
+   ├── examples.md     # At least 2 worked examples
+   └── reference.md    # Quality criteria, anti-patterns, integration
+   ```
 
-This project takes a different view: useful cognitive tools should be usable.
+2. **Update the catalog:** Add entry to `SKILL.md`
+
+4. **SKILL.md frontmatter format:**
+   ```yaml
+   ---
+   name: yourskill
+   description: >
+     Third-person description of what the skill does. Include trigger
+     words for when Claude should auto-invoke it. Under 1024 characters.
+   argument-hint: "[what arguments it takes]"
+   ---
+   ```
+
+5. **Design principles:**
+   - Include `$ARGUMENTS` support for slash-command use
+   - Document integration points with existing skills
+   - Keep SKILL.md under 150 lines; use supporting files for detail
+   - Write descriptions in third person with specific trigger words
+
+### Skill Naming Conventions
+
+- Directory names: lowercase, no spaces (e.g., `doublecrux`)
+- Main skill file: always `SKILL.md`
+- In prose: lowercase (e.g., "use doublecrux to...")
+
+---
+
+## Attribution & Intellectual Lineage
+
+The thinking techniques described here were invented by others. This project provides original descriptions, examples, and AI-adapted processes — not reproductions of source materials. No content has been copied from CFAR's curriculum, handbook, or workshop materials, from LessWrong posts, or from any other copyrighted source. All process descriptions, worked examples, and skill instructions are original to this project.
+
+We owe the ideas to:
+
+- **[CFAR](https://rationality.org/)** (Center for Applied Rationality) — invented murphyjitsu, goal factoring, aversion factoring, double crux, and the inner simulator technique. These names and the core concepts behind them belong to CFAR's intellectual tradition.
+- **[Eliezer Yudkowsky](https://lesswrong.com/)** — originated the "taboo your words" concept and "noticing confusion" on LessWrong.
+- **[Alicorn](https://www.lesswrong.com/posts/EFQ3F6kmt4WHXRqik/ugh-fields)** — coined the "ugh field" concept on LessWrong.
+- **[Daniel Kahneman](https://en.wikipedia.org/wiki/Daniel_Kahneman) & [Amos Tversky](https://en.wikipedia.org/wiki/Amos_Tversky)** — foundational research on the planning fallacy and base-rate neglect underlying reference class forecasting.
+- **[Philip Tetlock](https://en.wikipedia.org/wiki/Philip_E._Tetlock)** — operationalized reference class forecasting for real-world prediction in the Good Judgment Project.
+- **[Gary Klein](https://en.wikipedia.org/wiki/Gary_A._Klein)** — developed the pre-mortem method that murphyjitsu builds on.
+- **[Richard Hamming](https://en.wikipedia.org/wiki/Richard_Hamming)** — posed the Hamming questions in his 1986 talk "You and Your Research."
+- **[Bryan Caplan](https://www.econlib.org/archives/2011/06/the_ideological.html)** — coined the ideological Turing test referenced in steelman.
+- **Philosophy/debate tradition** — steelmanning as the inverse of strawmanning, building on the principle of charity.
+
+If you are affiliated with any of the above and have concerns about this project, please open an issue or reach out directly.
+
+This project takes a specific view: useful cognitive tools should be usable, and making them available as AI skills extends their reach to people who would never attend a CFAR workshop or read a LessWrong sequence.
 
 ---
 
