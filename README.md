@@ -84,27 +84,24 @@ These complement [FUTURE_TOKENS](https://github.com/jordanrubin/FUTURE_TOKENS), 
 
 ### Claude.ai (upload as skill)
 
-Build the ZIP and upload it:
+Download `combat-epistemology.zip` from the [latest release](https://github.com/dgriffith/combat-epistemology/releases/latest), then upload it via Claude → Settings → Skills.
 
-```bash
-./build-zip.sh
-```
-
-This creates `combat-epistemology.zip` with exactly one `SKILL.md` and 20 supporting files. Upload it via Claude → Settings → Skills.
+The ZIP contains one unified `SKILL.md` and 20 supporting files — ready to upload as-is.
 
 ### Claude Code
 
 **Project-level** — skills available to everyone working on this repo:
 
 ```bash
-git clone https://github.com/yourusername/combat_epistemology.git
-cp -r combat_epistemology/.claude/skills/* your-project/.claude/skills/
+git clone https://github.com/dgriffith/combat-epistemology.git
+cp -r combat-epistemology/.claude/skills/* your-project/.claude/skills/
 ```
 
 **Personal** — skills available across all your projects:
 
 ```bash
-cp -r combat_epistemology/.claude/skills/* ~/.claude/skills/
+git clone https://github.com/dgriffith/combat-epistemology.git
+cp -r combat-epistemology/.claude/skills/* ~/.claude/skills/
 ```
 
 Once installed, skills are auto-discovered. Invoke them directly:
